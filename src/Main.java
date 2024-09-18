@@ -76,7 +76,6 @@ class ClientHandler implements Runnable {
 
             String method = requestParts[0];
             String path = requestParts[1];
-
             // Read headers
             String acceptEncoding = "";
             int contentLength = 0;
