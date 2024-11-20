@@ -1,3 +1,6 @@
+[![progress-banner](https://backend.codecrafters.io/progress/http-server/8c4ee7f4-6481-4b79-85b1-0b63da07298c)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+
+
 # Concurrent-HTTP-Server-With-Java
 
 This project is a multithreaded HTTP server written in Java. It handles basic HTTP methods such as `GET` and `POST`, serves files, echoes user-agent strings, supports gzip compression, and allows concurrent client connections.
