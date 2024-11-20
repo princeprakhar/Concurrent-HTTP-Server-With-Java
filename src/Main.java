@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.zip.GZIPOutputStream;
 
 public class Main {
@@ -11,21 +13,27 @@ public class Main {
         System.out.println("Concurrent HTTP server starting...");
         if (args.length > 1 && args[0].equals("--directory")) {
             directory = args[1];
-        } else {
+        } else{
             System.out.println("Usage: java Main --directory <path>");
             return;
         }
 
+        // Create a thread pool with a fixed number of threads
+        ExecutorService threadPool = Executors.newFixedThreadPool(10);
         try (ServerSocket serverSocket = new ServerSocket(4221)) {
             serverSocket.setReuseAddress(true);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Accepted new connection");
-                new Thread(new ClientHandler(clientSocket, directory)).start();
+                // Submit the client handler task to the thread pool
+                threadPool.execute(new ClientHandler(clientSocket, directory));
             }
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
+        } finally {
+            // Shutdown the thread pool gracefully
+            threadPool.shutdown();
         }
     }
 }
